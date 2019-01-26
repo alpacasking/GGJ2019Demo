@@ -8,6 +8,7 @@ public class Seat:Block
     {
         Empty,
         Passenge,
+        Barrier,
     }
     public SeatState State;
 }

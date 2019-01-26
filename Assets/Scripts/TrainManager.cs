@@ -21,26 +21,31 @@ public class TrainManager : MonoBehaviour
     {
         passenges = new Dictionary<Passenge, PassengeInTrain>();
         Seats = new Seat[SeatColumn, SeatRow];
-        for (int i=0;i< SeatColumn; i++)
+        var seats = gameObject.GetComponentsInChildren<Seat>();
+        for(int i = 0; i < seats.Length; i++)
         {
-            for(int j = 0; j < SeatRow; j++)
-            {
-                GameObject seatobj = new GameObject("seat_" + i + "_" + j);
-                seatobj.tag = "seat";
-                seatobj.transform.SetParent(transform);
-                seatobj.transform.localPosition = new Vector2(StartPos.x + SeatSize.x * i, StartPos.y + SeatSize.y * j);
-                BoxCollider2D seatCollider = seatobj.AddComponent<BoxCollider2D>();
-                seatobj.transform.localScale = new Vector3(SeatSize.x, SeatSize.y,1);
-                Seat seat = seatobj.AddComponent<Seat>();
-                seat.State = Seat.SeatState.Empty;
-                seat.x = i;
-                seat.y = j;
-                Seats[i, j] = seat;
-                GameObject seatSprite = Instantiate(SeatSprite);
-                seatSprite.transform.SetParent(seatobj.transform);
-                seatSprite.transform.localPosition = Vector2.zero;
-            }
+            Seats[seats[i].x, seats[i].y] = seats[i];
         }
+        //for (int i=0;i< SeatColumn; i++)
+        //{
+        //    for(int j = 0; j < SeatRow; j++)
+        //    {
+        //        GameObject seatobj = new GameObject("seat_" + i + "_" + j);
+        //        seatobj.tag = "seat";
+        //        seatobj.transform.SetParent(transform);
+        //        seatobj.transform.localPosition = new Vector2(StartPos.x + SeatSize.x * i, StartPos.y + SeatSize.y * j);
+        //        BoxCollider2D seatCollider = seatobj.AddComponent<BoxCollider2D>();
+        //        seatobj.transform.localScale = new Vector3(SeatSize.x, SeatSize.y,1);
+        //        Seat seat = seatobj.AddComponent<Seat>();
+        //        seat.State = Seat.SeatState.Empty;
+        //        seat.x = i;
+        //        seat.y = j;
+        //        Seats[i, j] = seat;
+        //        GameObject seatSprite = Instantiate(SeatSprite);
+        //        seatSprite.transform.SetParent(seatobj.transform);
+        //        seatSprite.transform.localPosition = Vector2.zero;
+        //    }
+        //}
     }
 
     public bool IsSeatEmpty(Passenge passenge,Block block,Seat seat,out Vector2 outputPos)
