@@ -30,7 +30,7 @@ public class TrainManager : MonoBehaviour
                 seatobj.transform.SetParent(transform);
                 seatobj.transform.localPosition = new Vector2(StartPos.x + SeatSize.x * i, StartPos.y + SeatSize.y * j);
                 BoxCollider2D seatCollider = seatobj.AddComponent<BoxCollider2D>();
-                seatCollider.size = SeatSize;
+                seatobj.transform.localScale = new Vector3(SeatSize.x, SeatSize.y,1);
                 Seat seat = seatobj.AddComponent<Seat>();
                 seat.State = Seat.SeatState.Empty;
                 seat.x = i;
@@ -46,7 +46,6 @@ public class TrainManager : MonoBehaviour
     public bool IsSeatEmpty(Passenge passenge,Block block,Seat seat,out Vector2 outputPos)
     {
         //List<Vector2> temp = new List<Vector2>(passenge.Blocks.Count);
-        Vector2 sum = Vector2.zero;
         for(int i=0;i< passenge.Blocks.Count; i++)
         {
             int offsetX = passenge.Blocks[i].x - block.x;
@@ -58,14 +57,14 @@ public class TrainManager : MonoBehaviour
                 outputPos = Vector2.zero;
                 return false;
             }
-            if(Seats[trainX, trainY].State != Seat.SeatState.Empty)
+            if (Seats[trainX, trainY].State != Seat.SeatState.Empty)
             {
                 outputPos = Vector2.zero;
                 return false;
             }
-            sum += (Vector2)Seats[trainX, trainY].transform.position;
         }
-        outputPos = new Vector2(sum.x / passenge.Blocks.Count, sum.y / passenge.Blocks.Count);
+        outputPos = new Vector2(seat.transform.position.x+passenge.transform.position.x-block.transform.position.x,
+        seat.transform.position.y+passenge.transform.position.y - block.transform.position.y);
         return true;
     }
 
@@ -78,21 +77,25 @@ public class TrainManager : MonoBehaviour
             int trainX = seat.x + offsetX;
             int trainY = seat.y + offsetY;
             Seats[trainX, trainY].State = Seat.SeatState.Passenge;
+            Seats[trainX, trainY].GetComponentInChildren<SpriteRenderer>().color = Color.red;
         }
         passenge.State = Passenge.PassengeState.Sitting;
-        passenges.Add(passenge, new PassengeInTrain { mBlock = block, mSeat = seat });
+        passenges.Add(passenge, new PassengeInTrain { mBlock = new Block {x = block.x,y = block.y }, mSeat = seat });
     }
 
-    public void RemovePassenge(Passenge passenge)
+    public void RemovePassenge(Passenge passenge ,bool useCache = false)
     {
         PassengeInTrain passengeInTrain = passenges[passenge];
-        for (int i = 0; i < passenge.Blocks.Count; i++)
+        var tempBlocks = useCache ? passenge.BlocksCache : passenge.Blocks;
+        Debug.Log("tempBlocks:"+tempBlocks.Count);
+        for (int i = 0; i < tempBlocks.Count; i++)
         {
-            int offsetX = passenge.Blocks[i].x - passengeInTrain.mBlock.x;
-            int offsetY = passenge.Blocks[i].y - passengeInTrain.mBlock.y;
+            int offsetX = tempBlocks[i].x - passengeInTrain.mBlock.x;
+            int offsetY = tempBlocks[i].y - passengeInTrain.mBlock.y;
             int trainX = passengeInTrain.mSeat.x + offsetX;
             int trainY = passengeInTrain.mSeat.y + offsetY;
             Seats[trainX, trainY].State = Seat.SeatState.Empty;
+            Seats[trainX, trainY].GetComponentInChildren<SpriteRenderer>().color = Color.blue;
         }
         passenge.State = Passenge.PassengeState.Standing;
         passenges.Remove(passenge);
@@ -100,11 +103,16 @@ public class TrainManager : MonoBehaviour
 
     public bool TryMovePassenge(Passenge passenge, Block block, Seat seat, out Vector2 outputPos)
     {
-        RemovePassenge(passenge);
+        PassengeInTrain passengeInTrain = passenges[passenge];
+        RemovePassenge(passenge,true);
         if(IsSeatEmpty(passenge, block, seat, out outputPos))
         {
             AddPassenge(passenge, block, seat);
             return true;
+        }
+        else
+        {
+            AddPassenge(passenge, passengeInTrain.mBlock, passengeInTrain.mSeat);
         }
         return false;
     }

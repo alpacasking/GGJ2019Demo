@@ -12,6 +12,8 @@ public class InputManager : MonoBehaviour
     private TrainManager trainManager;
     [SerializeField]
     private StationManager stationManager;
+    private int rotateTime = 0;
+    public bool IsValid;
     private bool HasInput
     {
         get
@@ -23,10 +25,14 @@ public class InputManager : MonoBehaviour
 
     void Update ()
 	{
-	    if (HasInput)
+        if (!IsValid)
+        {
+            return;
+        }
+        if (HasInput)
 	    {
 	        DragOrPickUp();
-            if (Input.GetMouseButtonDown(1))
+            if (Input.GetKeyDown("space"))//Input.GetMouseButtonDown(1))
             {
                 RotatePassenge();
             }
@@ -63,6 +69,7 @@ public class InputManager : MonoBehaviour
                     draggedPassenge = hit.transform.parent.gameObject;
                     if (draggedPassenge != null && draggedPassenge.tag == "passenge")
                     {
+                        draggedPassenge.GetComponent<Passenge>().Cache();
                         draggedBlock = hit.transform.gameObject;
                         originalPosition = draggedPassenge.transform.position;
                         draggingItem = true;
@@ -115,7 +122,6 @@ public class InputManager : MonoBehaviour
                         draggedBlock.GetComponent<Block>(), seat, out newPos))
                         {
                             draggedPassenge.transform.position = newPos;
-                            //stationManager.RemovePassenge(draggedPassenge.GetComponent<Passenge>());
                         }
                         else
                         {
@@ -149,13 +155,15 @@ public class InputManager : MonoBehaviour
         {
             draggedPassenge.transform.position = originalPosition;
         }
+        rotateTime = 0;
     }
 
     void RotatePassenge()
     {
-        draggedPassenge.transform.Rotate(new Vector3(0, 0, -90));
+        draggedPassenge.transform.Rotate(new Vector3(0, 0, 90));
         var p = draggedPassenge.GetComponent<Passenge>();
         p.Rotate();
+        rotateTime++;
         //draggedPassenge.transform.position = CurrentTouchPosition;
     }
 }
