@@ -18,7 +18,9 @@ public class StationManager : MonoBehaviour
         for(int i=0;i< SlotSize; i++)
         {
             var passenge = Instantiate(PassengePrefabs[Random.Range(0, PassengePrefabs.Count)]);
-            passenge.transform.position = StartPos + MoveDis * i;
+            Vector3 pos = StartPos + MoveDis * i;
+            pos.z = -1;
+            passenge.transform.position = pos;
             Passenges.Add(passenge);
             SpawnedPassengeCount++;
         }
@@ -32,7 +34,9 @@ public class StationManager : MonoBehaviour
         Passenges.AddRange(tempPassenges);
         for (int i = 0; i < Passenges.Count; i++)
         {
-            Passenges[i].transform.position = StartPos + MoveDis * i;
+            Vector3 pos = StartPos + MoveDis * i;
+            pos.z = -1;
+            Passenges[i].transform.position = pos;
         }
         PassengeLeftCount--;
     }
@@ -43,7 +47,9 @@ public class StationManager : MonoBehaviour
         SpawnedPassengeCount++;
         for (int i = 0; i < Passenges.Count; i++)
         {
-            Passenges[i].transform.position = StartPos + MoveDis *  i;
+            Vector3 pos = StartPos + MoveDis * i;
+            pos.z = -1;
+            Passenges[i].transform.position = pos;
         }
     }
     public void RemovePassenge(Passenge passenge)
@@ -55,7 +61,9 @@ public class StationManager : MonoBehaviour
         }
         for (int i = 0; i < Passenges.Count; i++)
         {
-            Passenges[i].transform.position = StartPos + MoveDis * i;
+            Vector3 pos = StartPos + MoveDis * i;
+            pos.z = -1;
+            Passenges[i].transform.position = pos;
         }
         PassengeLeftCount++;
     }

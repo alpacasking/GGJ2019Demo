@@ -56,7 +56,9 @@ public class InputManager : MonoBehaviour
         var inputPosition = CurrentTouchPosition;
         if (draggingItem)
         {
-            draggedPassenge.transform.position = inputPosition + touchOffset;
+            Vector3 tempNewPos = inputPosition + touchOffset;
+            tempNewPos.z = -1;
+            draggedPassenge.transform.position = tempNewPos;
         }
         else
         {
@@ -85,7 +87,7 @@ public class InputManager : MonoBehaviour
     {
         draggingItem = false;
         var inputPosition = CurrentTouchPosition;
-        RaycastHit2D[] touches = Physics2D.RaycastAll(inputPosition, Vector2.zero, 0.5f);
+        RaycastHit2D[] touches = Physics2D.RaycastAll(inputPosition, Vector2.zero, 10f);
         Debug.Log(touches.Length);
         if (touches.Length == 2)
         {
@@ -105,7 +107,9 @@ public class InputManager : MonoBehaviour
                             Debug.Log("Yes");
                             trainManager.AddPassenge(draggedPassenge.GetComponent<Passenge>(),
                         draggedBlock.GetComponent<Block>(), seat);
-                            draggedPassenge.transform.position = newPos;
+                            Vector3 tempNewPos = newPos;
+                            tempNewPos.z = -1;
+                            draggedPassenge.transform.position = tempNewPos;
                             stationManager.RemovePassenge(draggedPassenge.GetComponent<Passenge>());
                         }
                         else
@@ -121,7 +125,9 @@ public class InputManager : MonoBehaviour
                         if (trainManager.TryMovePassenge(draggedPassenge.GetComponent<Passenge>(),
                         draggedBlock.GetComponent<Block>(), seat, out newPos))
                         {
-                            draggedPassenge.transform.position = newPos;
+                            Vector3 tempNewPos = newPos;
+                            tempNewPos.z = -1;
+                            draggedPassenge.transform.position = tempNewPos;
                         }
                         else
                         {
@@ -136,8 +142,13 @@ public class InputManager : MonoBehaviour
                     }
                     else
                     {
-                        Debug.Log("N1"+ hitObj.name);
+                        Debug.Log("N1"+ hitObj.name+","+ rotateTime);
                         draggedPassenge.transform.position = originalPosition;
+                        if(rotateTime > 0)
+                        {
+                            for (int i = 0; i < rotateTime; i++)
+                                RotatePassenge(false);
+                        }
                     }
                 }
                 else
@@ -158,11 +169,19 @@ public class InputManager : MonoBehaviour
         rotateTime = 0;
     }
 
-    void RotatePassenge()
+    void RotatePassenge(bool inverse = true)
     {
-        draggedPassenge.transform.Rotate(new Vector3(0, 0, 90));
+        if (inverse)
+        {
+            draggedPassenge.transform.Rotate(new Vector3(0, 0, 90));
+
+        }
+        else
+        {
+            draggedPassenge.transform.Rotate(new Vector3(0, 0, -90));
+        }
         var p = draggedPassenge.GetComponent<Passenge>();
-        p.Rotate();
+        p.Rotate(inverse);
         rotateTime++;
         //draggedPassenge.transform.position = CurrentTouchPosition;
     }

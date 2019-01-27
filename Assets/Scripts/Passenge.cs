@@ -16,14 +16,22 @@ public class Passenge : MonoBehaviour
     public List<Block> BlocksCache;
     public List<Block> Blocks;
     public PassengeState State;
-    public void Rotate()
+    public void Rotate(bool inverse = true)
     {
         for (int i = 0; i < Blocks.Count; i++)
         {
             int x = Blocks[i].x;
             int y = Blocks[i].y;
-            Blocks[i].x = -y;
-            Blocks[i].y = x;
+            if (inverse)
+            {
+                Blocks[i].x = -y;
+                Blocks[i].y = x;
+            }
+            else
+            {
+                Blocks[i].x = y;
+                Blocks[i].y = -x;
+            }
         }
     }
     public void Cache()

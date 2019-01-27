@@ -1536,7 +1536,7 @@ MonoBehaviour:
   Timer: 100
   TimerText: {fileID: 1939510151}
   ResultText: {fileID: 182048279}
-  StartTime: 10
+  StartTime: 1
   State: 0
   stationManager: {fileID: 1505746002}
   inputManager: {fileID: 2039615320}
