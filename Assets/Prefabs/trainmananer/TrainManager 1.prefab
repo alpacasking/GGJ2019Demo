@@ -27393,7 +27393,7 @@ GameObject:
   - component: {fileID: 2148081112033657839}
   - component: {fileID: 2148081112033657832}
   m_Layer: 0
-  m_Name: TrainManager
+  m_Name: TrainManager 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

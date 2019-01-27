@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     public EscPanel escpanel;
     public string NextStageName;
     public GameObject TrainBlockObj;
+    public GameObject TrainBarrier;
     public enum GameState{
         Starting,
         Playing,
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
         trainRenderer.sprite = GOsprite;
         StartAnim();
         TrainBlockObj.SetActive(false);
+        TrainBarrier.SetActive(false);
     }
 
     // Update is called once per frame
@@ -82,6 +84,7 @@ public class GameManager : MonoBehaviour
                     ResultText.text = "游戏中";
                     inputManager.IsValid = true;
                     trainRenderer.sprite = Stopsprite;
+                    TrainBarrier.SetActive(true);
                 }
                 break;
             case GameState.Pause:
