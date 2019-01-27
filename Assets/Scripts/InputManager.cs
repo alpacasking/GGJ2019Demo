@@ -32,7 +32,7 @@ public class InputManager : MonoBehaviour
         if (HasInput)
 	    {
 	        DragOrPickUp();
-            if (Input.GetKeyDown("space"))//Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1))
             {
                 RotatePassenge();
             }
@@ -62,6 +62,7 @@ public class InputManager : MonoBehaviour
         }
         else
         {
+            trainManager.gameObject.SetActive(true);
             RaycastHit2D[] touches = Physics2D.RaycastAll(inputPosition, inputPosition, 0.5f);
             if (touches.Length > 0)
             {
@@ -71,6 +72,7 @@ public class InputManager : MonoBehaviour
                     draggedPassenge = hit.transform.parent.gameObject;
                     if (draggedPassenge != null && draggedPassenge.tag == "passenge")
                     {
+                        trainManager.Show();
                         draggedPassenge.GetComponent<Passenge>().Cache();
                         draggedBlock = hit.transform.gameObject;
                         originalPosition = draggedPassenge.transform.position;
@@ -85,6 +87,7 @@ public class InputManager : MonoBehaviour
  
     void DropItem()
     {
+        trainManager.Hide();
         draggingItem = false;
         var inputPosition = CurrentTouchPosition;
         RaycastHit2D[] touches = Physics2D.RaycastAll(inputPosition, Vector2.zero, 10f);
