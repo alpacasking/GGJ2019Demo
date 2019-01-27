@@ -1624,7 +1624,11 @@ MonoBehaviour:
   PassengePrefabs:
   - {fileID: 4213493365357019632, guid: ff4acc6ed702644e7a6c896211823b3c, type: 3}
   - {fileID: 6331777326073260698, guid: 58956c46292034e66b41abef480dbf55, type: 3}
+  - {fileID: 5714978630934599410, guid: dbccd979c5df8488abd0014a1803b45d, type: 3}
   - {fileID: 5361413271521038520, guid: ebf2967d9383545219295b4649f5dc6a, type: 3}
+  - {fileID: 6379260254404529436, guid: a4e75dd71386544019408e326cb48e55, type: 3}
+  - {fileID: 3239378577478762475, guid: f4f656bf8a25a4a969bd9cfc976a23db, type: 3}
+  - {fileID: 5701285073097702930, guid: 548461d75ff0a45b6b5f117010ed85a6, type: 3}
   PassengeCount: 10
   SpawnedPassengeCount: 0
   PassengeLeftCount: 0
