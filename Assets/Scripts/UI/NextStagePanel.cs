@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class NextStagePanel : BasePanel<NextStagePanel>
 {
-
+    public string NextStageName;
     public override void Start()
     {
         base.Start();
@@ -18,12 +18,13 @@ public class NextStagePanel : BasePanel<NextStagePanel>
 
     public void OnMenuBtnClick()
     {
-        SceneManager.LoadScene("01StartScene");
+        SceneManager.LoadScene(NextStageName);
         Hide();
     }
     public void OnNextBtnClick()
     {
-        SceneManager.LoadScene("Level1");
+        NextStageS.NextStageName = NextStageName;
+        SceneManager.LoadScene("03Animation");
         Hide();
     }
 }

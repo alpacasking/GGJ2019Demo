@@ -49,6 +49,7 @@ public class TrainManager : MonoBehaviour
         //        seatSprite.transform.localPosition = Vector2.zero;
         //    }
         //}
+        Hide();
     }
 
     public bool IsSeatEmpty(Passenge passenge,Block block,Seat seat,out Vector2 outputPos)
@@ -123,5 +124,29 @@ public class TrainManager : MonoBehaviour
             AddPassenge(passenge, passengeInTrain.mBlock, passengeInTrain.mSeat);
         }
         return false;
+    }
+
+    public void Hide()
+    {
+        for (int i = 0; i < SeatColumn; i++)
+        {
+            for (int j = 0; j < SeatRow; j++)
+            {
+                var s = Seats[i, j].GetComponentInChildren<SpriteRenderer>();
+                s.color = new Color(s.color.r, s.color.g, s.color.b,0);
+            }
+        }
+    }
+
+    public void Show()
+    {
+        for (int i = 0; i < SeatColumn; i++)
+        {
+            for (int j = 0; j < SeatRow; j++)
+            {
+                var s = Seats[i, j].GetComponentInChildren<SpriteRenderer>();
+                s.color = new Color(s.color.r, s.color.g, s.color.b, 0.2f);
+            }
+        }
     }
 }

@@ -21,6 +21,9 @@ public class GameManager : MonoBehaviour
     public Sprite GOsprite;
     public Sprite Stopsprite;
     public EscPanel escpanel;
+    public string NextStageName;
+    public GameObject TrainBlockObj;
+    public GameObject TrainBarrier;
     public enum GameState{
         Starting,
         Playing,
@@ -35,12 +38,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        NextStagePanel.Instance.NextStageName = NextStageName;
         Timer = 0;
         ResultText.text = "开始动画";
         State = GameState.Starting;
         inputManager.IsValid = false;
         trainRenderer.sprite = GOsprite;
         StartAnim();
+        TrainBlockObj.SetActive(false);
+        TrainBarrier.SetActive(false);
     }
 
     // Update is called once per frame
@@ -74,9 +80,11 @@ public class GameManager : MonoBehaviour
                     TimerObj.SetActive(true);
                     State = GameState.Playing;
                     Timer = TimeLimit;
+                    TrainBlockObj.SetActive(true);
                     ResultText.text = "游戏中";
                     inputManager.IsValid = true;
                     trainRenderer.sprite = Stopsprite;
+                    TrainBarrier.SetActive(true);
                 }
                 break;
             case GameState.Pause:
@@ -104,10 +112,10 @@ public class GameManager : MonoBehaviour
 
         //StartCoroutine(Playaudio());
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(Stage.DOFade(1, 1).SetLoops(5, LoopType.Yoyo));
-        sequence.Join(StageLabel.DOFade(1, 1).SetLoops(5, LoopType.Yoyo));
-        sequence.Insert(7, Stage.DOFade(0, 1));
-        sequence.Insert(7, StageLabel.DOFade(0, 1));
+        sequence.Append(Stage.DOFade(1, 1));
+        sequence.Join(StageLabel.DOFade(1, 1));
+        sequence.Insert(1.5f, Stage.DOFade(0, 1));
+        sequence.Insert(1.5f, StageLabel.DOFade(0, 1));
 
 
         train.transform.position = new Vector3(-40, train.transform.position.y, 0);
