@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public SpriteRenderer trainRenderer;
     public Sprite GOsprite;
     public Sprite Stopsprite;
+    public EscPanel escpanel;
     public enum GameState{
         Starting,
         Playing,
@@ -81,6 +82,7 @@ public class GameManager : MonoBehaviour
             case GameState.Pause:
                 break;
             case GameState.Clear:
+                break;
             case GameState.Fail:
                 StartCoroutine(DelayEscPanel());
                 State = GameState.End;
@@ -94,7 +96,7 @@ public class GameManager : MonoBehaviour
     IEnumerator DelayEscPanel()
     {
         yield return new WaitForSeconds(1);
-        //EscPanel.Instance.Show();
+        escpanel.Show();
     }
 
     public void StartAnim()
@@ -109,7 +111,7 @@ public class GameManager : MonoBehaviour
 
 
         train.transform.position = new Vector3(-40, train.transform.position.y, 0);
-        train.DOMoveX(-1.32f, 7).SetEase(Ease.OutExpo);
+        train.DOLocalMoveX(-0.28f, 7).SetEase(Ease.OutExpo);
 
         TimerObj.SetActive(false);
     }

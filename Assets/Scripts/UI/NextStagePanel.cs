@@ -16,12 +16,12 @@ public class NextStagePanel : BasePanel<NextStagePanel>
         NextBtn.onClick.AddListener(OnNextBtnClick);
     }
 
-    private void OnMenuBtnClick()
+    public void OnMenuBtnClick()
     {
         SceneManager.LoadScene("01StartScene");
         Hide();
     }
-    private void OnNextBtnClick()
+    public void OnNextBtnClick()
     {
         SceneManager.LoadScene("Level1");
         Hide();
