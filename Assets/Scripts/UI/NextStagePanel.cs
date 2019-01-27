@@ -18,12 +18,12 @@ public class NextStagePanel : BasePanel<NextStagePanel>
 
     private void OnMenuBtnClick()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("01StartScene");
         Hide();
     }
     private void OnNextBtnClick()
     {
-        //GameManager.Instance.NextStage();
+        SceneManager.LoadScene("Level1");
         Hide();
     }
 }

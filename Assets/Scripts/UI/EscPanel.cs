@@ -18,7 +18,7 @@ public class EscPanel : BasePanel<EscPanel>
 
     private void OnMenuBtnClick()
     {
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene("01StartScene");
     }
     private void OnQuitBtnClick()
     {
