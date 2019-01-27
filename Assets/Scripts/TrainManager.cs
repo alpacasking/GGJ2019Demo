@@ -22,9 +22,12 @@ public class TrainManager : MonoBehaviour
         passenges = new Dictionary<Passenge, PassengeInTrain>();
         Seats = new Seat[SeatColumn, SeatRow];
         var seats = gameObject.GetComponentsInChildren<Seat>();
-        for(int i = 0; i < seats.Length; i++)
+        for (int i = 0; i < seats.Length; i++)
         {
             Seats[seats[i].x, seats[i].y] = seats[i];
+            var oColor = Seats[seats[i].x, seats[i].y].GetComponentInChildren<SpriteRenderer>().color;
+            oColor.a = 0.2f;
+            Seats[seats[i].x, seats[i].y].GetComponentInChildren<SpriteRenderer>().color = oColor;
         }
         //for (int i=0;i< SeatColumn; i++)
         //{
